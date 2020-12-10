@@ -27,7 +27,9 @@ summary(decon)
 
 ## 1.Introduction
 As we all know, in Canada, only Canadian citizens over 18 years old have the eligibility to vote during federal election. The winning political party was Liberal Party for 2019 and the Prime Minister is Justin Trudeau. However, there are also many other people living in Canada over 18 years old that cannot vote during election such as international students, people with a work permit, permanent citizens and refugees etc. A question comes up: what if all the people in Canada have the right to vote for their supporting political party? Will the result be different? Is this a better or worse voting patter to use for Canada’s future election? Based on this motivation and interest, I collected the survey dataset for 2019 CES and xxx Canada Census dataset to do some analysis to see whether the result would be different.
+
 After doing a post-stratification on the xxx Canadian Census dataset and applying it to a survey dataset model for 2019 CES, we found that the result is different from the real life. I first created a proper model based on 2019 CES survey dataset including several variables of interest which may affect people’s voting choice. This model can be used to predict the voting intention according to several personal information aspects. Then, I applied the xxx Census dataset which is a post-stratification dataset onto this model, I got a different result based on the situation that all the people in Canada can vote. 
+
 This result delicates that there should be restrictions set on people who can vote since for example, people under 18 do not have complete and mature personality and political sense. Involving the whole population will lead to a biased result. In this paper, I will clearly introduce my analyzing procedure and relative data cleaning process. Also, there are discussions about what each step means and how this result reflects towards Canada’s election pattern. 
 
 
