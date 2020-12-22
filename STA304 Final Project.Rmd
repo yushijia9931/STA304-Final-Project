@@ -1,24 +1,12 @@
 ---
-title: Will the Result be Different if Everyone in Canada Vote for 2019 Canadian Federal
+title: Will the Winner be Different if Everyone in Canada Attend Voting in 2019 Canadian Federal
   Election? 
 author: "Shijia Yu"
-date: "12/9/2020"
-<<<<<<< HEAD
+date: "12/22/2020"
 output:
   pdf_document: default
   word_document: default
-abstract: The 2019 Canadian Federal Election has finished with the winner of Liberal
-  Party. This result is derived from all the eligible Canadian Citizens’ votes. This
-  paper will use post-stratification method and logistic models to predict the election
-  result assuming the whole Canada population can vote. Will the winner be different?
-=======
-output: word_document
-Keywords: Post-stratification, 2019 Canadian Election Survey, Canada Census, logistic regression
-Abstract: The 2019 Canadian Federal Election has finished with the winner of Liberal Party. 
-This result is derived from all the eligible Canadian Citizens’ votes. 
-This paper will use post-stratification method and logistic models to predict the election result assuming the whole Canada population can vote.
-Will the winner be different?  
->>>>>>> c35f133a0f914e293427969f009dc94991a4fd3b
+abstract: "The 2019 Canadian Federal Election has finished with the winner of Liberal Party based on all the eligible Canadian Citizens or permanent residents' voteing. After using a generalized linear mixed-effect regression model on the whole Canadian population in this paper, a different winning result comes out which causes more thinking. This paper will use post-stratification method and GLMM(a statistical model) to predict the election result assuming the whole Canada population can vote. The result will cause deep thinking about whether it's necessary to change the voting pattern in Canda and why the result would be different between these two voting forms. 
 ---
 
 ```{r setup, include=FALSE}
@@ -52,8 +40,6 @@ library(cesR)
 get_ces("ces2019_web")
 ```
 
-<<<<<<< HEAD
-=======
 ## 1.Introduction
   As we all know, in Canada, only Canadian citizens over 18 years old have the eligibility to vote during federal election. 
 The winning political party was Liberal Party for 2019 and the Prime Minister is Justin Trudeau. However, there are also many 
@@ -72,7 +58,6 @@ that all the people in Canada can vote.
 and political sense. Involving the whole population will lead to a biased result. In this paper, I will clearly introduce 
 my analyzing procedure and relative data cleaning process. Also, there are discussions about what each step means and how this result 
 reflects towards Canada’s election pattern. 
->>>>>>> c35f133a0f914e293427969f009dc94991a4fd3b
 
 ```{r convert values into factors, include=FALSE}
 #convert values to factor type
@@ -82,7 +67,7 @@ head(ces2019_web)
 ```
 
 ## 2.Data 
-### 2.1.1 Survey Data Description
+## 2.1.1 Survey Data Description
 The survey data I used for constructing the statistical model to predict the voting intention is 2019 Canadian Election Online Survey data which can be obtained from the R package "cesR". The online survey sample for the 2019 Canadian Election Study is made up of a two-section panel with a modified rolling-cross section during the campaign period and a post-election recontact section. Since the post-election survey questions were designed for comparison with the responses during the campaign, they are not completely meaningful to use for prediction. Therefore, I decide to just focus on the Campaign Period survey data because the purpose of the paper is to predict a new election result. 
 
 For the Campaign Period Survey which was conducted from September 13th to October 21st 2019, the survey data was gathered from an online sample of 37,822 members of the Canadian general population through Qualtrics. People can get access to the survey through Qualtrics website and fill out the survey. Eligible people to vote in Canada are either Canadian Citizens or permanent residents, therefore, only respondents with these two status are left after the filtering process bu the survey designer. The population behind the survey is all the people who are eligible to vote for federal election in Canada, the frame of the survey is a list of people who saw the survey through email or the website since the survey was released, and the survey sample is all the people who filled out this online survey.  However, there are duplicated responses or responses that were not carefully given existed, so the sample was processed and cleaned by the survey designer to remove those meaningless response. For incomplete responses, duplicate responses of previous respondents, speeders(completed the survey in less than 500 seconds, or 8.3 minutes), those who “straight-lined” grid questions (“straight-liners”), and respondents whose postal code doesn't match their province, they were all removed from the data file. This process is conducted based on checking several variables including checking the respondents' time spent, IP address, gender, year of birth, education, employment, religion and immigration status to make sure the response is not a duplicate response. Therefore, after this cleaning and filter process, all the responses in the 2019 Campaign Period Survey have a specific answer or the "Don't know/prefer not to answer" choice is selected. This procedure effectively deleted all the non-response(NA) and make the dataset meaningful to analyze. 
@@ -90,7 +75,7 @@ For the Campaign Period Survey which was conducted from September 13th to Octobe
 The survey sample was stratified by region and balanced on gender and age within each region, ideally 50% men and 50% women.  The age distribution is that 28% of the respondents aged 18-34, 33% aged 35-54 and 39% aged 55 and higher. The regions were: Atlantic (Newfoundland and Labrador, New Brunswick, Nova Scotia, Prince Edward Island), Quebec, Ontario Prairies (Manitoba, Saskatchewan, Alberta), and British Columbia. Within each of those regions, the provincial quotas were split evenly. In addition, the sample aims to have 80% French and 20% English within Quebec, 10% French within the Atlantic region, and 10% French nationally. Respondents are needed to be aged 18 or over, and Canadian citizens or permanent residents in order to participate. The CPS data is what I will use in this paper to build up a generalized logistic model and predict a new result. 
 
 
-### 2.1.2 Survey Data Variables Introduction
+## 2.1.2 Survey Data Variables Introduction
 The variables of interest for constructing the generalized logistic regression model I selected are respondents' gender, living province and educational background. I believe these demographic variables can reflect people's personal information and background in some sense. Due to there are "Don't know/ Prefer not to answer" or choices not related to 2019 Canadian election, I did some data cleaning to make sure the variables in survey sample are meaningful to construct a prediction model. In the following, the four variables of interest are introduced one by one.
 
 ```{r Select some variables of interest, eval=TRUE,echo=FALSE}
@@ -142,6 +127,7 @@ filtered_ces2019 <- filtered_ces2019 %>%
 #filtered_ces2019 <- to_factor(filtered_ces2019$cps19_gender)
 knitr::kable(count(filtered_ces2019$cps19_gender), caption = "Respondents' Gender Distribution")
 ```
+
 ### 3. Province
 Province is a categorical variable which has 13 levels which also stands for 13 provinces in Canada. In another way to speak, every respondent in the survey sample belongs to a province and the sample can be divided into 13 provinces. Therefore, province is a categorical variable. I believe that there may exist group effect among different provinces when voting since different provinces have unique local culture and political trend. Therefore, province will be used as a random effect in model section, and within each province group, there will be an estimated voting choice. This will be further discussed in the model section.
 In a more straightforward way, the table below shows living province distribution of the respondents. As you can see, the four largest sources are Ontario, Quebec, Alberta and British Columbia.
@@ -186,8 +172,9 @@ knitr::kable(count(filtered_ces2019$cps19_education), caption = "Respondents' Ed
 ## 2.2 Census Data Description
 The second dataset used to predict the voting result is 2016 Canadian Census Data which is obtained from Statistics Canada Education Census website. The census dataset provides statistical information about the population, age and sex, type of dwelling, families, households and marital status, language, income, immigration and ethnocultural diversity, housing, Aboriginal peoples, education, labour, journey to work, language of work and mobility and migration, as measured in the census program. 
 In the 2016 Census of Population, Canada recorded a population of 35,151,728 living in 14,072,079 of its 15,412,443 total private dwellings, a 5% change from its 2011 population of 33,476,688. The majority of Canada's population in 2016 were females which takes up 50.9%, while 49.1% were males. The average age of the population was 41.0 years (40.1 years for males and 41.9 years for females). The Census population includes all the people living in Canada including Canadian Citizens, permanent residents, toddlers, international students with study permit, people with work permit and refugees etc. 
+
 ### Pivot Process
-This is a post-stratification dataset which means it is stratified by a group variable. In this case, the group variable is province which is stratified into 13 categories. For educational background, after pivoting the dataset, it is transferred into a single variable with 6 educational levels. Therefore, education is also a catgorical variable now. 
+This is a post-stratification dataset which means it is stratified by a group variable. In this case, the group variable is province which is stratified into 13 categories. For educational background, after pivoting the dataset, it is transferred into a single variable with 6 educational levels. Therefore, education is also a categorical variable now. In the following table("2016 Census Province Distribution"), each province have 60 units which means there are 60 groups of people in each province. The people in the same unit have the same age range, sex and educational background. Units within the same provinces are different from one another.  That is to say, the total number of people within each province is the sum of the counts of people of the 60 units. 
 
 
 ```{r 2016 census data pivot, eval=TRUE,echo=FALSE}
@@ -211,7 +198,6 @@ data_pivot<-data %>% select(c("Geographic name", "Age","Sex", "Total - Highest c
 colnames(data_pivot)[1] <- "Province"
 #summary(data_pivot)
 
-knitr::kable(count(data_pivot$Province), caption = "2016 Census Province Distribution")
 ```
 
 ```{r 2016 Census data cleaning(deleting meaningless values), eval=TRUE,echo=FALSE}
@@ -221,24 +207,38 @@ data_pivot <- data_pivot %>% filter(Sex == "Male"|Sex == "Female")
 #delete "Canada" in Province
 data_pivot <- data_pivot %>% filter(Province != "Canada")
 
-#delete "All ages"in Age
+#delete "All ages" in Age
 data_pivot <- data_pivot %>% filter(Age != "All ages, 15-plus")
+#Census province distribution table
+knitr::kable(count(data_pivot$Province), caption = "2016 Census Province Distribution")
 
 ```
 
 
 ## 3. Model 
-The model I build up is a multi-level regression post-stratification model which takes group effect on voting choice into account.
-I hope to discover the different performances among different province groups because I believe there should exist random effect which will let people's behavior differs on group level. In a more straightforward way to speak, we divided the population into different groups in our model based on 13 provinces in Canada, within each group, respondents will have similar performance and relationship of voting choice internally. Among different groups, they have parallel performance which can be represented as parallel lines with different y axis intercepts in x-y plane. The province are divided into 13 categories, the categories and the number of people in each category are shown in the following table:
+## 3.1 Introduction of Generalized Linear Mixed-effects Model (GLMM)
+GLMM (Generalized Linear Mixed-effects Model)
+A GLMM (Generalized Linear Mixed-effects Model) indicates a linear regression relationship between a binary response and one or more co-variates, which are also called independent variables. One of the independent of the variable can have random effects which means within each group or category of this variable, the features will show similar performances towards the binary outcome. The purpose of the model is to explore the relationship between a binary outcome response and a bunch of potentially influential factors including group effects. In our case, the binary outcome is the two choices of voting -- Liberal Party or others. The variables of interest we choose includes gender, living province and education level. Both fixed effects and random effects are specified via the model. Given that we are interested in gender, living province and education, we first construct a logistic regression model with the binary outcome "Liberal Party" or "Others". For each individual, if he or she chooses Liberal Party, $y_i$ equals 1; if the choice is others, $y_i$ equals to 0. The corresponding statistical and mathematical notation is shown below:
 
-```{r 2016 Census data province post-stratification distribution, eval=TRUE,echo=FALSE, include=FALSE}
-#change "province" into factor type
-data_pivot$Province <- to_factor(data_pivot$Province)
-knitr::kable(count(data_pivot$Province), caption = "2016 Census Data's Province Distribution Chart")
-```
+$$Pr(y_i = 1) = \mbox{logit}^{-1}\left((1|\beta^{province}_{p[i]}) + \beta^{gender}_{g[i]} + \beta^{education}_{edu[i]}\right) $$
+The binary Y output follows Binomial distribution:
+
+$$Y_i \sim Binomial(N_i, p_i)$$
+The original Y:
+$$log(\frac{p_i}{1-p_i}) = logit(p_i) = X_i\beta$$
+Where,
+
+- $N_i$ is the total sample size 
+- $Y_i$ is the number of event of interest happening - the number of respondents who vote for Liberal Party
+- $p_i$ is the probability of the respondent voting for Liberal Party
+- $X_i$ is the vector of covariates (i.e. province, gender and education level)
+- $\beta$ represents the coefficient vector corresponding to each covariate
 
 
-### 1. Model Construction(MRP)
+## 3.2 Model Construction(GLMM)
+After completing data cleaning process of both of the 2019 Election Campaign Survey Sample and 2016 Canadian Census data, I decide to build up is  model which takes group effect of 13 provinces on voting choice into account.
+I hope to discover the different performances among different province groups because I believe there should exist random effect which will let people's behavior differs on group level. In a more straightforward way to speak, I divided the population into different groups in our model based on 13 provinces in Canada, within each group, respondents will have similar performance and relationship of voting choice internally. Among different groups, they have parallel performance which can be represented as parallel lines with different y axis intercepts in x-y plane. 
+The random effect of the model is province while the fixed effect of the model is gender and education. 
 
 ```{r MRP model construction, eval=TRUE,echo=FALSE, include=FALSE}
 library(lme4)
@@ -246,7 +246,12 @@ model1 <- glmer(votechoice ~ (1|cps19_province) + cps19_gender + cps19_education
 summary(model1)
 ```
 
-### 2.Diagnositics 
+## Modelling Software
+Analysis was conducted in R (R Core Team, 2019) and the generalized linear mixed-effect model were produced using the built-in function glmer in R.
+
+## 3.3 Model Diagnositics(AUC)
+After constructing a model, one important thing to do is to conduct model diagnostics to check the accuracy of the model. Only models with a reasonable prediction accuracy can be used in real life. In order to check whether the model is in good quality or not, I used AUC to measure how many percentage of the voting result can be explained by this model. After plotting the ROC, I found that the area under the curve is 57%, which means in 57% of the time, the model can predict the voting result accurately. This is a relatively adequate accuracy level, therefore, this generalized linear mixed-effects model is available to be used in the post-stratification 2016 Census data file.
+
 ```{r AUC model diagnostics, eval=TRUE,echo=FALSE, include = FALSE}
 
 library(pROC)
@@ -256,24 +261,30 @@ auc(roc1)
 plot(roc1, auc.polygon=TRUE, print.auc = TRUE,asp = NA)
 ```
 
-
 ## 4.Applying the Model to Post-Stratification Data
-
+After constructing the model based on 2019 election campaign survey data and doing diagnostics, the prediction model is finalized. Now, I hope to apply the 2016 Census data onto the model in order to predict the voting result. The reason why using 2016 census data but not 2019 is because from 2016 to 2019, the census situation in Canada did not change a lot so that 2016 census data can represent the population in Canada for year 2019 in some sense.  Therefore, after applying 2016 census onto the prediction model, we can get a result of either Liberal Party or other parties can win under the condition that the whole Canadian population attend the presidential election's voting. 
 ```{r Apply 2016 Census Data onto the MRP model, include = FALSE}
-vote_pred_census <- predict(model1, data_pivot[,c("Province", "Sex", "education")], type = "response")
-vote_pred_census<-ifelse(vote_pred_census>0.5,"Liberal Party","Other Parties")
+#vote_pred_census <- predict(model1, data_pivot[,c("Province", "Sex", "education")], type = "response")
+#vote_pred_census<-ifelse(vote_pred_census>0.5,"Liberal Party","Other Parties")
 
 ```
 
 ## 5. Discussion and Result
-pending
+Completed all the steps above, the final prediction result is "Other Parties" would win in 2019 Canadian Election. This means if the eligible voters include people other than Canadian Citizen, permanent residents and people under 18 years old, the voting result will be different. 
 
 ## 6. Further Thinking and Weaknesses
-<<<<<<< HEAD
+As seen from the result, if the government includes people other than Canadian Citizen and permanent resident such as temporary residents, international students or people with work permit etc. into voting, the result will be biased and different. The reason is that temporary residents may have absolute demand for immigration, or they will leave Canada after a short period of time. Therefore, their political perspective will be different from permanent citizens who will care more about the longer development or welfare of the government. If the voting includes all the people into account, the immigration flow and wave of the temporary residents in different periods of time will significantly raise the bias of the election result.
+There are also weaknesses that can't be ignored: in the 2016 census data, people under 18 years old are also included to predict the election result. Kids and new-born babies are also included, but they don't have the ability and political perspective to make a reasonable voting choice. Therefore, the prediction result based on the 2016 census data is also be biased in some sense due to this reason. This should be revised and improved in further studies.
 
 ## References
-Wikipedia.(2020). Available at: https://en.wikipedia.org/wiki/2016_Canadian_Census
-Statistic Canada.(2020). Available at: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm
-=======
-pending
->>>>>>> c35f133a0f914e293427969f009dc94991a4fd3b
+- Stephenson, Laura B; Harell, Allison; Rubenson, Daniel; Loewen, Peter John, 2020, '2019 Canadian Election Study - Online Survey', https://doi.org/10.7910/DVN/DUS88V, Harvard Dataverse, V1
+
+- Stephenson, Laura, Allison Harrel, Daniel Rubenson and Peter Loewen. Forthcoming. 'Measuring Preferences and Behaviour in the 2019 Canadian Election Study,' Canadian Journal of Political Science.Available at: https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/DUS88V
+
+- Stat Canada 2016 Education Census. (2020). Available at: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/hlt-fst/edusco/
+index-eng.cfm
+
+- 2016 Canadian Census. (2020). Available at: https://en.wikipedia.org/wiki/2016_Canadian_Census
+
+- Statistic Canada.(2020).Data products, 2016 Census. Available at: https://www12.statcan.gc.ca/census-recensement/2016/dp-pd/index-eng.cfm
+
