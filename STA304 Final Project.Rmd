@@ -40,6 +40,12 @@ library(cesR)
 get_ces("ces2019_web")
 ```
 
+```{r convert values into factors, include=FALSE}
+#convert values to factor type
+ces2019_web <- to_factor(ces2019_web)
+head(ces2019_web)
+#ces2019_web is the 2019 Canadian Election Online Survey data that we need
+```
 
 ## 2.Data 
 ## 2.1.1 Survey Data Description
